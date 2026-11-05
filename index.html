@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Opposite Adjectives · A1 Practice</title>
+<style>
+:root{
+  --indigo:#6366f1; --violet:#8b5cf6; --green:#10b981; --red:#ef4444;
+  --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  color:var(--ink);
+  background:linear-gradient(160deg,#eef2ff 0%,#fdf2f8 45%,#ecfeff 100%);
+  background-attachment:fixed;
+  min-height:100vh;
+  padding:26px 14px 80px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+
+/* ---------- header ---------- */
+header{text-align:center}
+h1{
+  margin:0 0 6px;
+  font-size:clamp(26px,5vw,40px);
+  font-weight:800;letter-spacing:-.6px;
+  background:linear-gradient(90deg,#6366f1,#ec4899,#f59e0b);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.sub{margin:0;color:var(--muted);font-size:15px}
+.progress-wrap{display:flex;align-items:center;gap:12px;max-width:540px;margin:16px auto 0}
+.progress{flex:1;height:14px;background:#e5e7eb;border-radius:99px;overflow:hidden;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.08)}
+.progress-fill{height:100%;width:0%;border-radius:99px;
+  background:linear-gradient(90deg,#34d399,#6366f1,#ec4899);
+  transition:width .45s cubic-bezier(.2,.9,.3,1)}
+#progressText{font-weight:800;color:#374151;font-variant-numeric:tabular-nums;font-size:14px;min-width:62px}
+
+/* ---------- cards ---------- */
+.card{
+  background:#fff;border-radius:22px;padding:22px 22px 24px;
+  box-shadow:0 14px 34px -18px rgba(30,41,59,.35), 0 2px 10px rgba(30,41,59,.05);
+  border:1px solid rgba(255,255,255,.7);
+  animation:rise .5s ease both;
+}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.card h2{margin:0 0 6px;font-size:19px;display:flex;align-items:center;gap:10px}
+.badge{
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;
+  font-size:12.5px;font-weight:800;width:26px;height:26px;border-radius:50%;
+  display:grid;place-items:center;flex:0 0 auto;box-shadow:0 4px 10px -4px rgba(99,102,241,.9);
+}
+.hint{margin:0 0 16px;color:var(--muted);font-size:14px}
+
+/* ---------- task 1 : matching ---------- */
+.match{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.col{display:flex;flex-direction:column;gap:10px}
+.mbtn{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:13px 16px;border-radius:14px;border:2px solid var(--line);
+  background:#f9fafb;font:inherit;font-size:15px;font-weight:600;color:#374151;
+  cursor:pointer;text-align:left;transition:transform .15s,border-color .15s,background .15s,box-shadow .15s;
+}
+.mbtn:hover:not(.done){border-color:#a5b4fc;background:#eef2ff;transform:translateY(-2px)}
+.mbtn.selected{border-color:var(--indigo);background:#e0e7ff;box-shadow:0 0 0 4px rgba(99,102,241,.18)}
+.mbtn.done{cursor:default;border-color:transparent;font-weight:700}
+.mbtn.done::after{content:"✓";font-weight:900;opacity:.75;font-size:15px}
+.mbtn.wrong{border-color:var(--red);background:#fee2e2;animation:shake .4s}
+.matchhint{margin:14px 0 0;font-size:14px;font-weight:600;color:#4b5563;min-height:20px}
+
+/* ---------- sentences & inputs ---------- */
+.sentence{
+  padding:12px 15px;border-radius:14px;background:#f9fafb;border:1px solid #eef0f4;
+  margin-bottom:10px;font-size:15px;line-height:2.1;
+}
+.blank{
+  border:none;border-bottom:2px dashed #a5b4fc;background:transparent;
+  font:inherit;font-weight:700;color:#4338ca;width:132px;
+  padding:2px 6px;text-align:center;outline:none;
+  transition:background .15s,border-color .15s,color .15s;
+}
+.blank:focus{background:#eef2ff;border-radius:8px 8px 0 0}
+.blank.ok{border-bottom-color:var(--green);color:#047857;background:#ecfdf5;border-radius:8px 8px 0 0}
+.blank.bad{border-bottom-color:var(--red);color:#b91c1c;background:#fef2f2;animation:shake .4s}
+
+/* ---------- word bank ---------- */
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;
+  padding:12px;border-radius:16px;background:#f5f3ff;border:1px dashed #c7d2fe}
+.chip{
+  background:#fff;color:#4338ca;border:1px solid #c7d2fe;border-radius:99px;
+  padding:6px 13px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;
+  transition:transform .15s,background .15s,box-shadow .15s;
+}
+.chip:hover{background:#e0e7ff;transform:translateY(-2px);box-shadow:0 6px 12px -8px rgba(67,56,202,.9)}
+.chip:active{transform:scale(.96)}
+
+/* ---------- buttons ---------- */
+.btn{
+  border:none;border-radius:12px;padding:11px 22px;font-family:inherit;
+  font-weight:800;font-size:15px;cursor:pointer;color:#fff;
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  box-shadow:0 8px 18px -8px rgba(99,102,241,.95);
+  transition:transform .15s,box-shadow .15s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px -10px rgba(99,102,241,1)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn.ghost{background:#fff;color:#4b5563;box-shadow:0 3px 10px -6px rgba(0,0,0,.4);border:1px solid var(--line);font-size:13.5px;padding:8px 16px}
+.actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:6px}
+.feedback{font-size:14px;font-weight:700;color:#4b5563}
+
+/* ---------- task 3 : choose ---------- */
+.opt{
+  padding:8px 20px;border-radius:99px;border:2px solid var(--line);background:#fff;
+  font-family:inherit;font-weight:700;font-size:14px;color:#374151;cursor:pointer;
+  transition:transform .15s,border-color .15s,background .15s;margin:0 2px;
+}
+.opt:hover:not(:disabled){border-color:#a5b4fc;background:#eef2ff;transform:translateY(-2px)}
+.opt:disabled{cursor:default}
+.opt.correct{background:#d1fae5;border-color:var(--green);color:#065f46}
+.opt.correct::after{content:" ✓"}
+.opt.wrong{background:#fee2e2;border-color:var(--red);color:#991b1b;animation:shake .4s}
+.sep{color:#cbd5e1;font-weight:700;margin:0 2px}
+
+/* ---------- task 4 : prompts ---------- */
+.prompts{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:10px}
+.prompt{
+  border:2px solid var(--line);background:#f9fafb;border-radius:14px;padding:12px 14px;
+  cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;text-align:left;
+  color:#374151;transition:transform .15s,border-color .15s,background .15s;
+}
+.prompt:hover{border-color:#a5b4fc;background:#eef2ff;transform:translateY(-2px)}
+.prompt .ans{
+  display:none;margin-top:9px;font-weight:500;color:#4b5563;font-size:13.5px;
+  border-top:1px dashed #d1d5db;padding-top:9px;line-height:1.5;
+}
+.prompt .ans::before{content:"💬 "}
+.prompt.open{background:#eef2ff;border-color:#a5b4fc}
+.prompt.open .ans{display:block}
+
+/* ---------- task 5 ---------- */
+.fixrow{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.fixrow b{color:#b91c1c;text-decoration:line-through;text-decoration-thickness:2px}
+
+/* ---------- celebrate ---------- */
+#celebrate{
+  position:fixed;inset:0;display:none;place-items:center;z-index:80;
+  background:rgba(17,24,39,.45);backdrop-filter:blur(4px);padding:20px;
+}
+#celebrate.show{display:grid}
+.win{
+  background:#fff;border-radius:26px;padding:34px 40px;text-align:center;max-width:420px;
+  box-shadow:0 30px 70px -20px rgba(0,0,0,.5);animation:pop .45s cubic-bezier(.2,.9,.3,1.5) both;
+}
+@keyframes pop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+.win-emoji{font-size:52px;line-height:1}
+.win h2{margin:8px 0 6px;font-size:24px;justify-content:center}
+.win p{margin:0 0 20px;color:var(--muted)}
+
+.confetti{position:fixed;top:-24px;width:9px;height:14px;border-radius:2px;z-index:90;pointer-events:none}
+@keyframes fall{to{transform:translateY(112vh) rotate(760deg);opacity:.85}}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
+}
+
+@media (max-width:520px){
+  .card{padding:18px 15px 20px}
+  .sentence{font-size:14px}
+  .blank{width:104px}
+  .mbtn{font-size:14px;padding:11px 13px}
+  .opt{padding:7px 14px;font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <h1>✨ Opposite Adjectives</h1>
+    <p class="sub">A1 vocabulary practice · beautiful / ugly · clean / dirty · empty / crowded · hot / cold · interesting / boring · modern / old · quiet / noisy · safe / dangerous</p>
+    <div class="progress-wrap">
+      <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+      <span id="progressText">0 / 30</span>
+    </div>
+  </header>
+
+  <!-- ================= TASK 1 ================= -->
+  <section class="card">
+    <h2><span class="badge">1</span> Match the opposites</h2>
+    <p class="hint">Click a word on the left, then click its opposite on the right.</p>
+    <div class="match">
+      <div class="col" id="colLeft"></div>
+      <div class="col" id="colRight"></div>
+    </div>
+    <p class="matchhint" id="matchHint"></p>
+  </section>
+
+  <!-- ================= TASK 2 ================= -->
+  <section class="card" id="card2">
+    <h2><span class="badge">2</span> Complete the sentences</h2>
+    <p class="hint">Type the missing word, or click a word from the box.</p>
+
+    <div class="bank">
+      <button class="chip" type="button">beautiful</button>
+      <button class="chip" type="button">boring</button>
+      <button class="chip" type="button">clean</button>
+      <button class="chip" type="button">cold</button>
+      <button class="chip" type="button">crowded</button>
+      <button class="chip" type="button">dangerous</button>
+      <button class="chip" type="button">dirty</button>
+      <button class="chip" type="button">empty</button>
+      <button class="chip" type="button">hot</button>
+      <button class="chip" type="button">interesting</button>
+      <button class="chip" type="button">modern</button>
+      <button class="chip" type="button">noisy</button>
+      <button class="chip" type="button">old</button>
+      <button class="chip" type="button">quiet</button>
+      <button class="chip" type="button">safe</button>
+      <button class="chip" type="button">ugly</button>
+    </div>
+
+    <div class="sentence">1. The beach is very <input class="blank" data-answer="beautiful" aria-label="answer 1">. Look at the blue water and white sand!</div>
+    <div class="sentence">2. Please wash your hands. They are <input class="blank" data-answer="dirty" aria-label="answer 2">.</div>
+    <div class="sentence">3. The bus is very <input class="blank" data-answer="crowded" aria-label="answer 3">. There are no free seats.</div>
+    <div class="sentence">4. I need a coat. It is <input class="blank" data-answer="cold" aria-label="answer 4"> today.</div>
+    <div class="sentence">5. This book is <input class="blank" data-answer="boring" aria-label="answer 5">. I don't want to read it.</div>
+    <div class="sentence">6. My phone is new. It is very <input class="blank" data-answer="modern" aria-label="answer 6">.</div>
+    <div class="sentence">7. The baby is sleeping. Please be <input class="blank" data-answer="quiet" aria-label="answer 7">.</div>
+    <div class="sentence">8. Don't walk there at night. It is <input class="blank" data-answer="dangerous" aria-label="answer 8">.</div>
+
+    <div class="actions">
+      <button class="btn" type="button" onclick="checkInputs(document.getElementById('card2'))">Check answers</button>
+      <span class="feedback"></span>
+    </div>
+  </section>
+
+  <!-- ================= TASK 3 ================= -->
+  <section class="card">
+    <h2><span class="badge">3</span> Choose the correct word</h2>
+    <p class="hint">Click the word that is true for the sentence.</p>
+
+    <div class="sentence q3">1. The classroom is <button class="opt" type="button" data-correct="false">clean</button><span class="sep">/</span><button class="opt" type="button" data-correct="true">dirty</button>. There is paper on the floor.</div>
+
+    <div class="sentence q3">2. The café is <button class="opt" type="button" data-correct="false">empty</button><span class="sep">/</span><button class="opt" type="button" data-correct="true">crowded</button>. There are many people.</div>
+
+    <div class="sentence q3">3. The tea is <button class="opt" type="button" data-correct="true">hot</button><span class="sep">/</span><button class="opt" type="button" data-correct="false">cold</button>. Be careful!</div>
+
+    <div class="sentence q3">4. The film is <button class="opt" type="button" data-correct="true">interesting</button><span class="sep">/</span><button class="opt" type="button" data-correct="false">boring</button>. I love it!</div>
+
+    <div class="sentence q3">5. This house is 200 years old. It is <button class="opt" type="button" data-correct="false">modern</button><span class="sep">/</span><button class="opt" type="button" data-correct="true">old</button>.</div>
+
+    <div class="sentence q3">6. The street is <button class="opt" type="button" data-correct="false">quiet</button><span class="sep">/</span><button class="opt" type="button" data-correct="true">noisy</button>. There are many cars.</div>
+
+    <div class="sentence q3">7. The park is <button class="opt" type="button" data-correct="false">safe</button><span class="sep">/</span><button class="opt" type="button" data-correct="true">dangerous</button> at night. Don't go alone.</div>
+
+    <div class="sentence q3">8. The garden is <button class="opt" type="button" data-correct="true">beautiful</button><span class="sep">/</span><button class="opt" type="button" data-correct="false">ugly</button>. Look at the flowers!</div>
+  </section>
+
+  <!-- ================= TASK 4 (bonus) ================= -->
+  <section class="card">
+    <h2><span class="badge">4</span> Speak — bonus</h2>
+    <p class="hint">Click a question, answer it aloud, then click again to see a sample answer.</p>
+    <div class="prompts" id="prompts"></div>
+  </section>
+
+  <!-- ================= TASK 5 ================= -->
+  <section class="card" id="card5">
+    <h2><span class="badge">5</span> Find and correct the mistake</h2>
+    <p class="hint">The crossed-out word is wrong. Write the correct word in the box.</p>
+
+    <div class="sentence fixrow"><span>1. The library is <b>noisy</b>. People read quietly.</span><input class="blank" data-answer="quiet" aria-label="answer 1"></div>
+    <div class="sentence fixrow"><span>2. My soup is <b>cold</b>. It is 90&nbsp;°C.</span><input class="blank" data-answer="hot" aria-label="answer 2"></div>
+    <div class="sentence fixrow"><span>3. The bus is <b>empty</b>. There are many people.</span><input class="blank" data-answer="crowded" aria-label="answer 3"></div>
+    <div class="sentence fixrow"><span>4. This old castle is <b>modern</b>. It is from 1400.</span><input class="blank" data-answer="old" aria-label="answer 4"></div>
+    <div class="sentence fixrow"><span>5. The park is <b>dangerous</b>. Children play safely.</span><input class="blank" data-answer="safe" aria-label="answer 5"></div>
+    <div class="sentence fixrow"><span>6. The film is <b>boring</b>. I love it!</span><input class="blank" data-answer="interesting" aria-label="answer 6"></div>
+
+    <div class="actions">
+      <button class="btn" type="button" onclick="checkInputs(document.getElementById('card5'))">Check answers</button>
+      <button class="btn ghost" type="button" onclick="location.reload()">↺ Start again</button>
+      <span class="feedback"></span>
+    </div>
+  </section>
+
+</div>
+
+<!-- ================= CELEBRATION ================= -->
+<div id="celebrate">
+  <div class="win">
+    <div class="win-emoji">🎉</div>
+    <h2>Fantastic!</h2>
+    <p>You finished all 30 activities. Well done!</p>
+    <button class="btn" type="button" onclick="location.reload()">Play again</button>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+const TOTAL = 30;
+let solved = 0;
+let celebrated = false;
+
+const progressFill = document.getElementById('progressFill');
+const progressText = document.getElementById('progressText');
+
+function updateProgress(){
+  progressFill.style.width = Math.round(solved / TOTAL * 100) + '%';
+  progressText.textContent = solved + ' / ' + TOTAL;
+  if (solved >= TOTAL) celebrate();
+}
+
+function addSolve(el){
+  if (!el || el.dataset.solved === '1') return false;
+  el.dataset.solved = '1';
+  solved++;
+  updateProgress();
+  return true;
+}
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+function shuffle(a){
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function normalize(s){
+  return String(s).toLowerCase().trim().replace(/[.!?,;:]+$/, '').replace(/\s+/g, ' ');
+}
+
+/* =========================================================
+   TASK 1 — CLICK-TO-MATCH
+   ========================================================= */
+const PAIRS = [
+  ['beautiful', 'ugly'],
+  ['clean',     'dirty'],
+  ['empty',     'crowded'],
+  ['hot',       'cold'],
+  ['interesting','boring'],
+  ['modern',    'old'],
+  ['quiet',     'noisy'],
+  ['safe',      'dangerous']
+];
+const PAIR_BG = ['#fef3c7','#dbeafe','#fce7f3','#dcfce7','#ede9fe','#ffedd5','#cffafe','#fee2e2'];
+const PAIR_FG = ['#92400e','#1e40af','#9d174d','#166534','#5b21b6','#9a3412','#155e75','#991b1b'];
+
+const colLeft  = document.getElementById('colLeft');
+const colRight = document.getElementById('colRight');
+const matchHint = document.getElementById('matchHint');
+
+let sel = null;
+
+function makeMatchBtn(text, pair, side){
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'mbtn';
+  b.textContent = text;
+  b.dataset.pair = pair;
+  b.dataset.side = side;
+  b.addEventListener('click', () => handleMatchClick(b));
+  return b;
+}
+
+PAIRS.forEach((p, i) => colLeft.appendChild(makeMatchBtn(p[0], i, 'L')));
+shuffle([...PAIRS.keys()]).forEach(i => colRight.appendChild(makeMatchBtn(PAIRS[i][1], i, 'R')));
+
+function handleMatchClick(el){
+  if (el.classList.contains('done')) return;
+
+  if (!sel){
+    sel = el;
+    el.classList.add('selected');
+    matchHint.textContent = '';
+    return;
+  }
+  if (sel === el){
+    el.classList.remove('selected');
+    sel = null;
+    return;
+  }
+  if (sel.dataset.side === el.dataset.side){
+    sel.classList.remove('selected');
+    sel = el;
+    el.classList.add('selected');
+    return;
+  }
+
+  const a = sel, b = el;
+
+  if (a.dataset.pair === b.dataset.pair){
+    const i = Number(a.dataset.pair);
+    [a, b].forEach(x => {
+      x.classList.remove('selected');
+      x.classList.add('done');
+      x.style.background = PAIR_BG[i];
+      x.style.color = PAIR_FG[i];
+      x.style.borderColor = 'transparent';
+    });
+    sel = null;
+    matchHint.textContent = '✅ Correct pair!';
+    addSolve(a);
+    setTimeout(() => { if (matchHint.textContent === '✅ Correct pair!') matchHint.textContent = ''; }, 1400);
+  } else {
+    [a, b].forEach(x => x.classList.add('wrong'));
+    matchHint.textContent = '❌ Not a pair — try again!';
+    sel = null;
+    setTimeout(() => {
+      [a, b].forEach(x => x.classList.remove('wrong', 'selected'));
+    }, 520);
+  }
+}
+
+/* =========================================================
+   TASKS 2 & 5 — TYPING / WORD BANK
+   ========================================================= */
+function checkInputs(card){
+  card.querySelectorAll('.blank').forEach(inp => {
+    if (inp.dataset.solved === '1') return;
+
+    const val = inp.value.trim();
+    if (val === '') return;
+
+    if (normalize(val) === normalize(inp.dataset.answer)){
+      inp.classList.remove('bad');
+      inp.classList.add('ok');
+      inp.readOnly = true;
+      addSolve(inp);
+    } else {
+      inp.classList.remove('ok');
+      inp.classList.add('bad');
+    }
+  });
+
+  const blanks = card.querySelectorAll('.blank');
+  const done   = card.querySelectorAll('.blank[data-solved="1"]');
+  const fb = card.querySelector('.feedback');
+  if (fb){
+    fb.textContent = done.length + ' / ' + blanks.length + ' correct' +
+                     (done.length === blanks.length ? ' 🎉' : '');
+  }
+}
+
+/* clear red state while typing */
+document.addEventListener('input', e => {
+  if (e.target.classList && e.target.classList.contains('blank')){
+    e.target.classList.remove('bad');
+  }
+});
+
+/* word bank: click a chip to fill the active / first empty blank */
+let activeInput = null;
+document.addEventListener('focusin', e => {
+  if (e.target.classList && e.target.classList.contains('blank')) activeInput = e.target;
+});
+
+document.querySelectorAll('.bank').forEach(bank => {
+  const card = bank.closest('.card');
+  bank.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const blanks = [...card.querySelectorAll('.blank')];
+      let target = null;
+
+      if (activeInput && card.contains(activeInput) && !activeInput.readOnly){
+        target = activeInput;
+      } else {
+        target = blanks.find(i => !i.readOnly && i.value.trim() === '');
+      }
+      if (!target) return;
+
+      target.value = chip.textContent.trim();
+      target.classList.remove('bad');
+      target.focus();
+      activeInput = target;
+    });
+  });
+});
+
+/* =========================================================
+   TASK 3 — CHOOSE FROM THE LIST
+   ========================================================= */
+document.querySelectorAll('.q3').forEach(row => {
+  row.querySelectorAll('.opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.disabled || row.dataset.solved === '1') return;
+
+      if (btn.dataset.correct === 'true'){
+        btn.classList.add('correct');
+        row.querySelectorAll('.opt').forEach(o => { o.disabled = true; });
+        addSolve(row);
+      } else {
+        btn.classList.add('wrong');
+        setTimeout(() => btn.classList.remove('wrong'), 620);
+      }
+    });
+  });
+});
+
+/* =========================================================
+   TASK 4 — SPEAKING PROMPTS (bonus, not scored)
+   ========================================================= */
+const PROMPTS = [
+  { q: 'Is your classroom quiet or noisy?',
+    a: 'My classroom is usually quiet, but it is noisy after lunch.' },
+  { q: 'Is your city clean or dirty?',
+    a: 'My city is quite clean. People put rubbish in the bins.' },
+  { q: 'Is your home hot or cold?',
+    a: 'My home is hot in summer and cold in winter.' },
+  { q: 'Is your street safe or dangerous?',
+    a: 'My street is safe. There are many people and street lights.' },
+  { q: 'Is your phone modern or old?',
+    a: 'My phone is modern. I bought it last year.' },
+  { q: 'Is your English book interesting or boring?',
+    a: 'My English book is interesting. I like the stories.' },
+  { q: 'Is your bedroom empty or crowded?',
+    a: 'My bedroom is crowded! There are books and clothes everywhere.' },
+  { q: 'Is your school beautiful or ugly?',
+    a: 'My school is beautiful. It has a big garden.' }
+];
+
+const promptsBox = document.getElementById('prompts');
+PROMPTS.forEach(p => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'prompt';
+  b.innerHTML = p.q + '<div class="ans"></div>';
+  b.querySelector('.ans').textContent = p.a;
+  b.addEventListener('click', () => b.classList.toggle('open'));
+  promptsBox.appendChild(b);
+});
+
+/* =========================================================
+   CELEBRATION
+   ========================================================= */
+function celebrate(){
+  if (celebrated) return;
+  celebrated = true;
+
+  document.getElementById('celebrate').classList.add('show');
+
+  const colors = ['#6366f1','#ec4899','#f59e0b','#10b981','#3b82f6','#f43f5e','#a855f7'];
+  for (let i = 0; i < 90; i++){
+    const d = document.createElement('div');
+    d.className = 'confetti';
+    d.style.left = Math.random() * 100 + 'vw';
+    d.style.background = colors[Math.floor(Math.random() * colors.length)];
+    d.style.animation = 'fall ' + (2 + Math.random() * 2).toFixed(2) + 's linear ' +
+                        (Math.random() * 0.9).toFixed(2) + 's forwards';
+    document.body.appendChild(d);
+    setTimeout(() => d.remove(), 5200);
+  }
+}
+
+/* =========================================================
+   START
+   ========================================================= */
+updateProgress();
+</script>
+</body>
+</html>
